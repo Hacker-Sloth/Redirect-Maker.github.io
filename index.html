@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Custom URL Redirects</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            padding: 20px;
+        }
+        .container {
+            max-width: 500px;
+            margin: auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
+        }
+        h2 {
+            text-align: center;
+        }
+        label {
+            display: block;
+            margin: 10px 0 5px;
+        }
+        input[type="text"], input[type="url"] {
+            width: 100%;
+            padding: 10px;
+            margin: 5px 0 15px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+        input[type="file"] {
+            margin: 10px 0 20px;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #28a745;
+            border: none;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        button:hover {
+            background-color: #218838;
+        }
+        .output {
+            margin-top: 20px;
+            text-align: center;
+        }
+        .output img {
+            width: 32px;
+            height: 32px;
+            vertical-align: middle;
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Create Custom URL Redirect</h2>
+        <form id="redirectForm">
+            <label for="displayName">Display Name</label>
+            <input type="text" id="displayName" placeholder="Enter display name" required>
+            
+            <label for="url">URL</label>
+            <input type="url" id="url" placeholder="Enter URL" required>
+
+            <label for="icon">Upload Icon</label>
+            <input type="file" id="icon" accept="image/*" required>
+
+            <button type="button" onclick="generateLink()">Generate Link</button>
+        </form>
+
+        <div class="output" id="output"></div>
+    </div>
+
+    <script>
+        function generateLink() {
+            const displayName = document.getElementById("displayName").value;
+            const url = document.getElementById("url").value;
+            const iconFile = document.getElementById("icon").files[0];
+
+            if (!iconFile) {
+                alert('Please upload an icon.');
+                return;
+            }
+
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                const iconUrl = e.target.result;
+                const outputDiv = document.getElementById("output");
+
+                const link = document.createElement("a");
+                link.href = url;
+                link.target = "_blank";
+                link.innerHTML = `<img src="${iconUrl}" alt="icon"> ${displayName}`;
+                
+                outputDiv.innerHTML = ""; // Clear previous output
+                outputDiv.appendChild(link);
+            };
+            reader.readAsDataURL(iconFile);
+        }
+    </script>
+</body>
+</html>
